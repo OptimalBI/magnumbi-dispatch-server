@@ -1,0 +1,11 @@
+.vs/
+.vs*/
+.vscode/
+\.idea/\.idea\.Optimal\.MagnumMicroservices/\.idea/
+**/bin/**
+**/obj/**
+*.key
+*.crt
+*.pub
+*.bak
+.idea/

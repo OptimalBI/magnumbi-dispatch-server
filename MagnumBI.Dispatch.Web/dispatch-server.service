@@ -1,0 +1,28 @@
+[Unit]
+Description=OptimalBI's MagnumBI Dispatch Server
+After=network-online.target
+
+[Service]
+; Logging stuff
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=dispatch-server
+
+; Executable stuff
+WorkingDirectory=/opt/optimalbi/dispatch
+ExecStart=/opt/optimalbi/dispatch/MagnumBI.Dispatch.Web
+
+; Use graceful shutdown with a reasonable timeout
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=15s
+
+; Restart stuff
+Restart=always
+RestartSec=30
+StartLimitInterval=200
+StartLimitBurst=5
+
+
+[Install]
+WantedBy=multi-user.target

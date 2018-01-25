@@ -1,0 +1,118 @@
+Log Entry : 
+8/2/2017 3:25:02 AM
+  :
+  :Amazon.CloudWatchLogs.AmazonCloudWatchLogsException: User: arn:aws:sts::719739053685:assumed-role/WindowsDevServerRole/i-0549f20e9ef676e7e is not authorized to perform: logs:CreateLogStream on resource: arn:aws:logs:ap-southeast-2:719739053685:log-group:MagnumMicroservice.Web:log-stream:2017/08/02T03.25.02 - 49dd03c0-6e0c-4d42-abcc-92199decc058 ---> Amazon.Runtime.Internal.HttpErrorResponseException: Exception of type 'Amazon.Runtime.Internal.HttpErrorResponseException' was thrown.
+   at Amazon.Runtime.HttpWebRequestMessage.<GetResponseAsync>d__20.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\HttpHandler\_mobile\HttpRequestMessageFactory.cs:line 414
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.HttpHandler`1.<InvokeAsync>d__9`1.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\HttpHandler\HttpHandler.cs:line 175
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.Unmarshaller.<InvokeAsync>d__3`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.ErrorHandler.<InvokeAsync>d__5`1.MoveNext()
+   --- End of inner exception stack trace ---
+   at Amazon.Runtime.Internal.HttpErrorResponseExceptionHandler.HandleException(IExecutionContext executionContext, HttpErrorResponseException exception) in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\ErrorHandler\HttpErrorResponseExceptionHandler.cs:line 60
+   at Amazon.Runtime.Internal.ErrorHandler.ProcessException(IExecutionContext executionContext, Exception exception) in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\ErrorHandler\ErrorHandler.cs:line 212
+   at Amazon.Runtime.Internal.ErrorHandler.<InvokeAsync>d__5`1.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\ErrorHandler\ErrorHandler.cs:line 104
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.CallbackHandler.<InvokeAsync>d__9`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.CredentialsRetriever.<InvokeAsync>d__7`1.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\Handlers\CredentialsRetriever.cs:line 98
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.RetryHandler.<InvokeAsync>d__10`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Amazon.Runtime.Internal.RetryHandler.<InvokeAsync>d__10`1.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\RetryHandler\RetryHandler.cs:line 131
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.CallbackHandler.<InvokeAsync>d__9`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.CallbackHandler.<InvokeAsync>d__9`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.ErrorCallbackHandler.<InvokeAsync>d__5`1.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\Handlers\ErrorCallbackHandler.cs:line 58
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.MetricsHandler.<InvokeAsync>d__1`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at AWS.Logger.Core.AWSLoggerCore.<LogEventTransmissionSetup>d__22.MoveNext() in D:\Jenkins\jobs\aws-logging-dotnet\workspace\src\AWS.Logger.Core\Core\AWSLoggerCore.cs:line 275
+-------------------------------
+Log Entry : 
+8/2/2017 3:25:03 AM
+  :
+  :Amazon.CloudWatchLogs.AmazonCloudWatchLogsException: User: arn:aws:sts::719739053685:assumed-role/WindowsDevServerRole/i-0549f20e9ef676e7e is not authorized to perform: logs:CreateLogStream on resource: arn:aws:logs:ap-southeast-2:719739053685:log-group:MagnumMicroservice.Web:log-stream:2017/08/02T03.25.02 - 49dd03c0-6e0c-4d42-abcc-92199decc058 ---> Amazon.Runtime.Internal.HttpErrorResponseException: Exception of type 'Amazon.Runtime.Internal.HttpErrorResponseException' was thrown.
+   at Amazon.Runtime.HttpWebRequestMessage.<GetResponseAsync>d__20.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\HttpHandler\_mobile\HttpRequestMessageFactory.cs:line 414
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.HttpHandler`1.<InvokeAsync>d__9`1.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\HttpHandler\HttpHandler.cs:line 175
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.Unmarshaller.<InvokeAsync>d__3`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.ErrorHandler.<InvokeAsync>d__5`1.MoveNext()
+   --- End of inner exception stack trace ---
+   at Amazon.Runtime.Internal.HttpErrorResponseExceptionHandler.HandleException(IExecutionContext executionContext, HttpErrorResponseException exception) in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\ErrorHandler\HttpErrorResponseExceptionHandler.cs:line 60
+   at Amazon.Runtime.Internal.ErrorHandler.ProcessException(IExecutionContext executionContext, Exception exception) in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\ErrorHandler\ErrorHandler.cs:line 212
+   at Amazon.Runtime.Internal.ErrorHandler.<InvokeAsync>d__5`1.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\ErrorHandler\ErrorHandler.cs:line 104
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.CallbackHandler.<InvokeAsync>d__9`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.CredentialsRetriever.<InvokeAsync>d__7`1.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\Handlers\CredentialsRetriever.cs:line 98
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.RetryHandler.<InvokeAsync>d__10`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Amazon.Runtime.Internal.RetryHandler.<InvokeAsync>d__10`1.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\RetryHandler\RetryHandler.cs:line 131
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.CallbackHandler.<InvokeAsync>d__9`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.CallbackHandler.<InvokeAsync>d__9`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.ErrorCallbackHandler.<InvokeAsync>d__5`1.MoveNext() in E:\JenkinsWorkspaces\v3-trebuchet-release\AWSDotNetPublic\sdk\src\Core\Amazon.Runtime\Pipeline\Handlers\ErrorCallbackHandler.cs:line 58
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Amazon.Runtime.Internal.MetricsHandler.<InvokeAsync>d__1`1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at AWS.Logger.Core.AWSLoggerCore.<LogEventTransmissionSetup>d__22.MoveNext() in D:\Jenkins\jobs\aws-logging-dotnet\workspace\src\AWS.Logger.Core\Core\AWSLoggerCore.cs:line 286
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at AWS.Logger.Core.AWSLoggerCore.<Monitor>d__20.MoveNext() in D:\Jenkins\jobs\aws-logging-dotnet\workspace\src\AWS.Logger.Core\Core\AWSLoggerCore.cs:line 173
+-------------------------------
