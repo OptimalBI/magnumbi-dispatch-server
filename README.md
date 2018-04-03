@@ -26,9 +26,9 @@ To run the MagnumBI Dispatch Server you require:
 * libunwind8
 * zlib1g
 
-On ubuntu (or other similar linux distrubutions) you can install with:
+On Ubuntu (or other similar Linux distributions) you can install with:
 ```bash
-sudo apt install gettext libcurl4-openssl-dev libicu-dev libssl-dev libunwind8 zlib1g
+apt-get install gettext libcurl4-openssl-dev libicu-dev libssl-dev libunwind8 zlib1g
 ```
 
 ## External Dependencies
@@ -42,6 +42,30 @@ Supported queue engines:
 * RabbitMQ  
 
 More datastores and queues can be added easily. See the development documentation for more information.
+
+## Running MagnumBI Dispatch Server
+To run the MagnumBI Dispatch server you will need:
+* The latest release from GitHub.
+* A SSL certificate in .pfx format (if we are using HTTPS, self-signed will do).
+* 
+
+2. Extract the archive.
+3. Run the executable (MangnumBi.Dispatch.Web or MagnumBi.Dispatch.Web.exe).
+4. This will create a default configuration file (Config.json).
+5. Configure MagnumBI Dispatch (see Configuring below).
+6. Start the server again once configured.
+7. Done!
+
+#### Creating Linux Service (Systemd)
+There is an example service file that can be found [here](MagnumBI.Dispatch.Web/dispatch-server.service)
+
+1. Copy the magnumbi dispatch build to /opt/magnumbi/dispatch/ and follow the above instructions.
+1. Make the file MagnumBI.Dispatch.Web executable.
+1. Copy the example service file to /lib/systemd/system/dispatch-server.service.
+1. Reload systemd with: ```sudo systemctl daemon-reload```
+1. Start the service with: ```sudo systemctl start dispatch-server```
+1. Check its running by reading /var/log/syslog and look for dispatch-server lines.
+1. If you would like dispatch to run on boot run: ```sudo systemctl enable dispatch-server```
 
 ## Configuring MagnumBI Dispatch
 
@@ -80,6 +104,9 @@ To see more on this subject see [git-flow](https://www.atlassian.com/git/tutoria
 * Unique ID generation for jobs.
 * Secure access to API (access keys)
 * HTTPS Support (recommended to use!)
+
+## API Documentation
+To see what that API routes can do [click here](ApiDocumentation.md).
 
 ## Feedback, suggestions, bugs, contributions: ##
 Please submit these to GitHub issue tracking or join us in developing by forking the project and then making a pull request!
