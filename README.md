@@ -49,12 +49,13 @@ To run the MagnumBI Dispatch server you will need:
 * A SSL certificate in .pfx format (if we are using HTTPS, self-signed will do).
 * 
 
-2. Extract the archive.
-3. Run the executable (MangnumBi.Dispatch.Web or MagnumBi.Dispatch.Web.exe).
-4. This will create a default configuration file (Config.json).
-5. Configure MagnumBI Dispatch (see Configuring below).
-6. Start the server again once configured.
-7. Done!
+1. Extract the archive.
+1. Run the executable (MangnumBi.Dispatch.Web or MagnumBi.Dispatch.Web.exe).
+1. This will create a default configuration file (Config.json).
+1. Configure MagnumBI Dispatch (see Configuring below).
+1. Change the contents of Tokens.json to include some access keys.
+1. Start the server again once configured.
+1. Done!
 
 #### Creating Linux Service (Systemd)
 There is an example service file that can be found [here](MagnumBI.Dispatch.Web/dispatch-server.service)
