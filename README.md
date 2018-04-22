@@ -10,6 +10,8 @@ Using MagnumBI Dispatch will allow you to integrate microservices into your syst
 To run the MagnumBI Dispatch Server you require:
 
 ##### Windows:
+To run MagnumBI Dispatch on Windows all you need is a supported OS.
+
 * Windows 7 SP1
 * Windows 8.1
 * Windows 10, Windows 10 Anniversary Update (version 1607) or later versions
@@ -19,6 +21,8 @@ To run the MagnumBI Dispatch Server you require:
 * Windows Server 2016 (Full Server, Server Core, or Nano Server)
 
 ##### Linux:
+To run on Linux we just need a few dependencies installed.
+
 * gettext
 * libcurl4-openssl-dev
 * libicu-dev
