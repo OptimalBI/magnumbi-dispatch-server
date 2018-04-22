@@ -47,7 +47,6 @@ More datastores and queues can be added easily. See the development documentatio
 To run the MagnumBI Dispatch server you will need:
 * The latest release from GitHub.
 * A SSL certificate in .pfx format (if we are using HTTPS, self-signed will do).
-* 
 
 1. Extract the archive.
 1. Run the executable (MangnumBi.Dispatch.Web or MagnumBi.Dispatch.Web.exe).
