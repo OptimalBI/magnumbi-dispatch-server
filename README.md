@@ -115,9 +115,9 @@ To see what that API routes can do [click here](ApiDocumentation.md).
 ## Client Libraries
 There are a number of client libraries in different languages to help getting started using MagnumBI Dispatch
 
-* [NodeJS](../magnumbi-dispatch-client-nodejs)
-* [.Net Core](../magnumbi-dispatch-dotnet-core-development)
-* [Python](../magnumbi-dispatch-python-development)
+* [NodeJS](https://github.com/OptimalBI/magnumbi-dispatch-client-nodejs)
+* [.Net Core](https://github.com/OptimalBI/magnumbi-dispatch-dotnet-core-development)
+* [Python](https://github.com/OptimalBI/magnumbi-dispatch-python-development)
 
 ## Feedback, suggestions, bugs, contributions: ##
 Please submit these to GitHub issue tracking or join us in developing by forking the project and then making a pull request!
