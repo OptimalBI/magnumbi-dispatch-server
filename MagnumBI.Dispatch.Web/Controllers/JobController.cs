@@ -138,7 +138,7 @@ namespace MagnumBI.Dispatch.Web.Controllers {
                 Engine.QueueJob(submission.QueueId, j);
             } catch (Exception e) {
                 Log.Error(e, $"Submit job failed");
-                return this.StatusCode(500);
+                return this.StatusCode(500, new {message = $"Failed to submit job: {e.Message}"});
             }
 
             return this.Ok();

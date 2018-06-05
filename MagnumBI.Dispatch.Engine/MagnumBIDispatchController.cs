@@ -58,6 +58,7 @@ namespace MagnumBI.Dispatch.Engine {
             } catch (Exception e) {
                 throw new Exception("Failed to connect to RabbitMQ", e);
             }
+
             Instance = this;
         }
 
@@ -82,6 +83,7 @@ namespace MagnumBI.Dispatch.Engine {
                     } catch (Exception e) {
                         throw new Exception("Failed to connect to MongoDB", e);
                     }
+
                     break;
                 case "PostgreSql":
                     try {
@@ -89,6 +91,7 @@ namespace MagnumBI.Dispatch.Engine {
                     } catch (Exception e) {
                         throw new Exception("Failed to connect to PostgreSQL", e);
                     }
+
                     break;
                 default:
                     throw new Exception($"Unknown datastore type {this.EngineConfig.DatastoreType}");
@@ -102,11 +105,7 @@ namespace MagnumBI.Dispatch.Engine {
         /// <param name="job">ID of job to queue</param>
         public void QueueJob([NotNull] string appId, [NotNull] Job job) {
             Log.Debug("Engine: Adding new job", appId, job.JobId);
-            try {
-                this.Datastore.Add(appId, job);
-            } catch (Exception e) {
-                throw new Exception("Failed to add job", e);
-            }
+            this.Datastore.Add(appId, job);
             this.Queue.QueueJob(appId, job.JobId);
         }
 
@@ -134,6 +133,7 @@ namespace MagnumBI.Dispatch.Engine {
                 if (jobId == null) {
                     return null;
                 }
+
                 try {
                     job = this.Datastore.Get(appId, jobId);
                 } catch (Exception e) {
@@ -145,6 +145,7 @@ namespace MagnumBI.Dispatch.Engine {
                     return null;
                 }
             } while (job == null);
+
             return job;
         }
 
@@ -195,9 +196,11 @@ namespace MagnumBI.Dispatch.Engine {
             if (!this.Datastore.HandleJobIds) {
                 return jobId;
             }
+
             while (!this.Datastore.IsJobIdAlreadyUsed(jobId)) {
                 jobId = GenerateNewJobId();
             }
+
             return jobId;
         }
 
@@ -222,6 +225,7 @@ namespace MagnumBI.Dispatch.Engine {
                 int charIndex = RandomGen.Next(0, ValidIdChars.Length);
                 id += ValidIdChars[charIndex];
             }
+
             return id;
         }
 
@@ -235,6 +239,7 @@ namespace MagnumBI.Dispatch.Engine {
             } catch (Exception e) {
                 Log.Error("Failed to shutdown cleanly", e);
             }
+
             Log.Debug($"Engine closed Queue: ${this.Queue.Connected}");
         }
     }

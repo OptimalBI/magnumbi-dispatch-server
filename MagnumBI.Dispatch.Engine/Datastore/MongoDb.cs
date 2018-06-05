@@ -4,7 +4,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using MagnumBI.Dispatch.Engine.Config.Datastore;
@@ -44,6 +47,7 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
                     string[] split = hostname.Split(':');
                     addresses.Add(new MongoServerAddress(split[0], int.Parse(split[1])));
                 }
+
                 mongoClientSettings.Servers = addresses;
                 mongoClientSettings.ConnectionMode = ConnectionMode.Automatic;
                 mongoClientSettings.ReplicaSetName = config.ReplicaSetName;
@@ -89,6 +93,7 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
                             sslConfigClientCertificate);
                         continue;
                     }
+
                     certList.Add(new X509Certificate2(sslConfigClientCertificate.Key,
                         sslConfigClientCertificate.Value));
                 }
@@ -105,8 +110,18 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
 
         /// <inheritdoc />
         public override void Add(string qid, Job job) {
+            this.Add(qid, job, false);
+        }
+
+        /// <summary>Overloaded method to allow second attempt if job contains invalid names.</summary>
+        /// <inheritdoc cref="BaseDatastore.Add" />
+        /// <param name="secondAttempt">Is this the second attempt to queue job?</param>
+#pragma warning disable 1573
+        public void Add(string qid, Job job, bool secondAttempt) {
+#pragma warning restore 1573
+            MongoJob mongoJob = null;
             try {
-                MongoJob mongoJob = MongoJob.ConvertJob(job);
+                mongoJob = MongoJob.ConvertJob(job);
                 IMongoCollection<MongoJob> collection = this.GetCollection(qid);
                 // If mongoJob already exists we need to replace it
                 FilterDefinition<MongoJob> filterDefinition =
@@ -116,11 +131,67 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
                     new UpdateOptions {
                         IsUpsert = true
                     });
+            } catch (BsonSerializationException e) {
+                if (secondAttempt) {
+                    throw;
+                }
+
+                try {
+                    if (e.Message.Contains("Element name")) {
+                        // Name probs contains '.'
+                        if (mongoJob != null) {
+                            CheckForInvalidCharacters(ref mongoJob);
+                            this.Add(qid, mongoJob, true);
+                        }
+                    }
+                } catch (Exception) {
+                    throw e;
+                }
             } catch (Exception e) {
                 Log.Error("Failed to add job data.", e);
                 throw;
             }
         }
+
+        /// <summary>
+        ///     Attempts
+        /// This method is slow so lets not use it too much.
+        /// </summary>
+        /// <param name="job"></param>
+        private static void CheckForInvalidCharacters(ref MongoJob job) {
+            Dictionary<string, object> changedData =
+                JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(job.Data));
+            Dictionary<string, object> returnedData = CheckSectionForInvalidNames(changedData);
+
+
+            dynamic thirdTime = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(returnedData));
+            if (thirdTime != null) {
+                job.Data = thirdTime;
+            }
+        }
+
+        private static Dictionary<string, object> CheckSectionForInvalidNames(Dictionary<string, object> checker) {
+            List<string> keyList = checker.Keys.ToList();
+            foreach (string key in keyList) {
+                Dictionary<string, object> changedData = null;
+                try {
+                    changedData = JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(checker[key]));
+                } catch (JsonSerializationException) {
+                }
+                if (changedData != null) {
+                    checker[key] = CheckSectionForInvalidNames(changedData);
+                }
+
+                if (key.Contains(".")) {
+                    string newKey = key.Replace(".", "_");
+                    checker[newKey] = checker[key];
+                    checker.Remove(key);
+                }
+            }
+
+            return checker;
+        }
+
 
         private IMongoCollection<MongoJob> GetCollection(string tableNamePostfix) {
             string tableName = TablePrefix + tableNamePostfix;
@@ -138,6 +209,7 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
                 this.database.CreateCollection(tableName);
                 collection = this.database.GetCollection<MongoJob>(tableName);
             }
+
             return collection;
         }
 
@@ -177,11 +249,13 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
                 if (queryResult.Count < 1) {
                     throw new Exception($"Did not find any results for {jobId} on {qid}");
                 }
+
                 return queryResult[0].ToJob();
             } catch (Exception e) {
                 if (++attemptNum > MaxAttempts) {
                     throw new Exception($"MongoDB: Failed to get Job: {qid},{jobId}", e);
                 }
+
                 Log.Warning($"MongoDB: Failed to find job on attempt {attemptNum}, retrying after short delay.");
                 Thread.Sleep(RetryDelayMilliSeconds);
                 return this.AttemptGet(qid, jobId, attemptNum);
@@ -227,21 +301,6 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
         private string jobId;
 
         /// <summary>
-        ///     ID for this job.
-        /// </summary>
-        [BsonId]
-        public new string JobId {
-            get {
-                if (this.jobId != null) {
-                    return this.jobId;
-                }
-                this.jobId = MagnumBiDispatchController.NewJobId();
-                return this.jobId ?? "";
-            }
-            private set => this.jobId = value;
-        }
-
-        /// <summary>
         ///     Default constructor for MongoJob.
         /// </summary>
         /// <param name="data">Job data</param>
@@ -258,6 +317,22 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
                 this.PreviousJobIds = new string[] {
                 };
             }
+        }
+
+        /// <summary>
+        ///     ID for this job.
+        /// </summary>
+        [BsonId]
+        public new string JobId {
+            get {
+                if (this.jobId != null) {
+                    return this.jobId;
+                }
+
+                this.jobId = MagnumBiDispatchController.NewJobId();
+                return this.jobId ?? "";
+            }
+            private set => this.jobId = value;
         }
 
         /// <summary>

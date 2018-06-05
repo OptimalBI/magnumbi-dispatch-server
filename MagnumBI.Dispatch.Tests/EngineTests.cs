@@ -21,11 +21,7 @@ namespace MagnumBI.Dispatch.Tests {
             Log.Logger = logConfig.CreateLogger();
 
             // Application stuff.
-            this.testAppId = "TESTAPPLICATION" +
-                             DateTime.UtcNow.ToString("u")
-                                 .Replace(" ", "")
-                                 .Replace("-", "")
-                                 .Replace(":", "");
+            this.testAppId = "TESTAPPLICATION__TEST";
 
             if (!File.Exists(this.configFile)) {
                 using (StreamWriter fileStream = File.CreateText(this.configFile)) {
@@ -48,7 +44,8 @@ namespace MagnumBI.Dispatch.Tests {
                     };
                     fileStream.Write(cfg.ToJson());
                 }
-                throw new Exception("Config file did not exist.");
+
+                throw new Exception($"Config file did not exist ({new FileInfo(this.configFile).FullName})");
             }
 
             string fileText = File.ReadAllText(this.configFile);
@@ -65,7 +62,7 @@ namespace MagnumBI.Dispatch.Tests {
             Log.Verbose($"Tests disposed.");
         }
 
-        private readonly string configFile = Path.Combine(AppContext.BaseDirectory, "TestMongoDbConfig.json");
+        private readonly string configFile = Path.Combine(AppContext.BaseDirectory, "TestConfig.json");
         private readonly ITestOutputHelper output;
         private readonly MagnumBiDispatchController engine;
         private readonly string testAppId;
@@ -95,6 +92,7 @@ namespace MagnumBI.Dispatch.Tests {
                 jobs.Remove(j.JobId);
                 this.engine.CompleteJob(this.testAppId, j.JobId);
             }
+
             Assert.Empty(jobs);
             Assert.False(this.engine.JobWaiting(this.testAppId));
         }
@@ -103,6 +101,43 @@ namespace MagnumBI.Dispatch.Tests {
         public void TestConfig() {
             Assert.False(string.IsNullOrWhiteSpace(this.engineConfig.DatastoreType));
             Assert.False(string.IsNullOrWhiteSpace(this.engineConfig.QueueType));
+        }
+
+        [Fact]
+        public void TestInvalidJobIds1() {
+            // Check test queue is empty
+            if (this.engine.JobWaiting(this.testAppId)) {
+                this.engine.PurgeJobs(this.testAppId);
+            }
+
+            // Add outgoing job.
+            Job j = new Job(new Dictionary<string, object> {
+                {"Nested", new Dictionary<string, string> {{"ts.t", "asd"}}},
+                {"Test", "data"},
+                {"tst.t", "Data"}
+            });
+
+            this.engine.QueueJob(this.testAppId, j);
+
+            Thread.Sleep(100);
+            
+            // Check job is on queue
+            Assert.True(this.engine.JobWaiting(this.testAppId));
+            
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            
+            // Get job back
+            Job retrJob = this.engine.RetrieveJob(this.testAppId);
+            Assert.False(retrJob == null);
+            
+            Assert.Equal(j, retrJob);
+            
+            this.engine.CompleteJob(this.testAppId, retrJob.JobId);
+            
+            // Check queue is empty
+            Assert.False(this.engine.JobWaiting(this.testAppId));
+            
+            this.engine.Shutdown();
         }
 
         [Fact]
