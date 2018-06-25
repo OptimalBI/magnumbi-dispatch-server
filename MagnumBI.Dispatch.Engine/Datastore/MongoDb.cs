@@ -125,7 +125,7 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
                 IMongoCollection<MongoJob> collection = this.GetCollection(qid);
                 // If mongoJob already exists we need to replace it
                 FilterDefinition<MongoJob> filterDefinition =
-                    Builders<MongoJob>.Filter.Eq("JobId", mongoJob.JobId);
+                    Builders<MongoJob>.Filter.Eq("_id", mongoJob.JobId);
                 collection.ReplaceOne(filterDefinition,
                     mongoJob,
                     new UpdateOptions {
@@ -244,7 +244,7 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
                 Log.Debug("Retrieving job", qid, jobId);
                 IMongoCollection<MongoJob> collection = this.database.GetCollection<MongoJob>(TablePrefix + qid);
                 FilterDefinition<MongoJob> filterDefinition =
-                    Builders<MongoJob>.Filter.Eq("JobId", jobId);
+                    Builders<MongoJob>.Filter.Eq("_id", jobId);
                 List<MongoJob> queryResult = collection.Find(filterDefinition).ToList();
                 if (queryResult.Count < 1) {
                     throw new Exception($"Did not find any results for {jobId} on {qid}");
@@ -282,7 +282,7 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
         public override void Remove(string qid, string jobId) {
             Log.Debug("Removing job", qid, jobId);
             IMongoCollection<MongoJob> collection = this.database.GetCollection<MongoJob>(TablePrefix + qid);
-            FilterDefinition<MongoJob> filterDefinition = Builders<MongoJob>.Filter.Eq("JobId", jobId);
+            FilterDefinition<MongoJob> filterDefinition = Builders<MongoJob>.Filter.Eq("_id", jobId);
             DeleteResult deleteResult = collection.DeleteOne(filterDefinition);
             Log.Debug($"Deleted {deleteResult.DeletedCount} objects for {jobId} on {qid}");
         }
