@@ -190,7 +190,6 @@ namespace MagnumBI.Dispatch.Engine.Queue {
                             this.connection?.Close(200);
                         }
                         this.connection = this.factory.CreateConnection();
-                        this.connection.AutoClose = false;
                     } catch (Exception e) {
                         Log.Error("Failed to create RabbitMQ connection: ", e);
                         throw;

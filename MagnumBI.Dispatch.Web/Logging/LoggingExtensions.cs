@@ -16,6 +16,11 @@ namespace MagnumBI.Dispatch.Web.Logging {
     ///     Extensions for serilog.
     /// </summary>
     public static class LoggingExtensions {
+        /// <summary>
+        /// Enrich logging with this nodes machine name.
+        /// </summary>
+        /// <param name="enrichmentConfiguration"></param>
+        /// <returns></returns>
         public static LoggerConfiguration WithDispatchMachineName(
             this LoggerEnrichmentConfiguration enrichmentConfiguration) {
             if (enrichmentConfiguration == null) {

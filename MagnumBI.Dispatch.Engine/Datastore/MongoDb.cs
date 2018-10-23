@@ -265,7 +265,7 @@ namespace MagnumBI.Dispatch.Engine.Datastore {
         /// <inheritdoc />
         public override bool IsEmpty(string qid) {
             IMongoCollection<Job> collection = this.database.GetCollection<Job>(TablePrefix + qid);
-            return collection.Count(FilterDefinition<Job>.Empty) == 0;
+            return collection.CountDocuments(FilterDefinition<Job>.Empty) == 0;
         }
 
         /// <inheritdoc />

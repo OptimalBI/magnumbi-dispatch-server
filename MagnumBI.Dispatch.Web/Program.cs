@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.AwsCloudWatch;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace MagnumBI.Dispatch.Web {
     /// <summary>
@@ -87,9 +88,9 @@ namespace MagnumBI.Dispatch.Web {
                 .MinimumLevel.Override("System", LogEventLevel.Warning)
                 .Enrich.WithDispatchMachineName()
 #if DEBUG
-                .WriteTo.Console(LogEventLevel.Debug, ConsoleOutputTemplate);
+                .WriteTo.Console(LogEventLevel.Debug, ConsoleOutputTemplate, theme: SystemConsoleTheme.Colored);
 #else
-                .WriteTo.Console(LogEventLevel.Information,consoleOutputTemplate);
+                .WriteTo.Console(LogEventLevel.Information,consoleOutputTemplate,theme:SystemConsoleTheme.Colored);
 #endif
 
             Config = WebConfigHelper.FromJson(File.ReadAllText(configFile));
@@ -112,7 +113,8 @@ namespace MagnumBI.Dispatch.Web {
                     cloudWatch = new AmazonCloudWatchLogsClient(new AmazonCloudWatchLogsConfig {
                         RegionEndpoint = RegionEndpoint.GetBySystemName(Config.AwsLogRegion)
                     });
-                } else {
+                }
+                else {
                     cloudWatch = new AmazonCloudWatchLogsClient(
                         new BasicAWSCredentials(Config.AwsAccessKey,
                             Config.AwsSecretKey),
@@ -190,11 +192,13 @@ namespace MagnumBI.Dispatch.Web {
                     int i = argList.IndexOf("--config");
                     if (i != -1) {
                         configFile = new FileInfo(args[i + 1]).FullName;
-                    } else {
+                    }
+                    else {
                         Log.Warning("No user-defined config file provided, using default.");
                     }
                 }
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 Log.Warning("Error loading user-defined config file. Using default.");
             }
 
@@ -204,11 +208,13 @@ namespace MagnumBI.Dispatch.Web {
                     int i = argList.IndexOf("--tokens");
                     if (i != -1) {
                         AuthenticationMiddleware.AccessKeyFile = new FileInfo(args[i + 1]).FullName;
-                    } else {
+                    }
+                    else {
                         Log.Warning("No user-defined tokens file provided, using default.");
                     }
                 }
-            } catch (Exception) {
+            }
+            catch (Exception) {
                 Log.Error("ERROR: Error loading user-defined tokens file. Using default.");
             }
         }
@@ -283,7 +289,8 @@ namespace MagnumBI.Dispatch.Web {
                     .UseStartup<Startup>()
                     .Build();
                 host.Run();
-            } else {
+            }
+            else {
                 IWebHost host = new WebHostBuilder().UseKestrel()
                     .UseUrls($"http://*:{Config.Port}")
                     .UseContentRoot(Directory.GetCurrentDirectory())
@@ -304,7 +311,8 @@ namespace MagnumBI.Dispatch.Web {
                     // Did not connect, kill.
                     throw new Exception("Failed to connect to backing services in sufficient time.");
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 Log.Error("Failed to start MagnumBI Dispatch Controller", e);
                 Log.Information("NOT RUNNING.");
 #if DEBUG
